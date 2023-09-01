@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\City\\OneDrive\\Desktop\\assignment\\Book-catallog-backend-assignment\\logs\\winston\\successes\\.b4ad35e507ccd1b96ca6b2c0bb98ee02e4e25a05-audit.json",
+    "files": [
+        {
+            "date": 1693573216034,
+            "name": "C:\\Users\\City\\OneDrive\\Desktop\\assignment\\Book-catallog-backend-assignment\\logs\\winston\\successes\\phu-2023-01-09-19-success.log",
+            "hash": "77ba7275cb05785e6bf4943c8472e69a4af9fc23a542c316e3101f9155e87a07"
+        }
+    ],
+    "hashType": "sha256"
+}
