@@ -7,10 +7,14 @@ const router = express.Router();
 
 router.get(
   '/',
-  auth(ENUM_USER_ROLE.SUPER_ADMIN,ENUM_USER_ROLE.ADMIN),
+//   auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
   UserController.getAllUserData
 );
-router.get('/:id');
+router.get(
+  '/:id',
+//   auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+  UserController.getSingleUserData
+);
 router.patch('/:id');
 router.delete('/:id');
 

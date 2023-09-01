@@ -6,6 +6,34 @@ const getAllUserData = async (): Promise<User[] | null> => {
   return result;
 };
 
-export const UserService ={
-    getAllUserData
-}
+const getSingleUserData = async (id: string): Promise<User | null> => {
+  const result = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  return result;
+};
+
+// const updateUserData = async (id: string): Promise<User | null> => {
+//     const result = await prisma.user.findUnique({
+//         where: {
+//           id: id,
+//         },
+//       });
+//       return result;
+// };
+
+// const deleteUserData = async (id: string): Promise<User | null> => {
+//     const result = await prisma.user.findUnique({
+//         where: {
+//           id: id,
+//         },
+//       });
+//       return result;
+// };
+
+export const UserService = {
+  getAllUserData,
+  getSingleUserData
+};
