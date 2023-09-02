@@ -20,7 +20,7 @@ const getAllBookFromDB = async (
   options: IPaginationOptions
 ): Promise<IGenericResponse<Book[] | null>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
-  const { searchTerm, ...filtersData } = filters;
+  const { searchTerm, maxPrice, minPrice, ...filtersData } = filters;
 
   const andConditions = [];
 
@@ -32,6 +32,23 @@ const getAllBookFromDB = async (
           mode: 'insensitive',
         },
       })),
+    });
+  }
+
+  // Add minPrice and maxPrice conditions
+  if (minPrice !== undefined) {
+    andConditions.push({
+      price: {
+        gte: minPrice,
+      },
+    });
+  }
+
+  if (maxPrice !== undefined) {
+    andConditions.push({
+      price: {
+        lte: maxPrice,
+      },
     });
   }
 
@@ -59,13 +76,62 @@ const getAllBookFromDB = async (
           }
         : { price: 'desc' },
   });
-  const total = await prisma.book.count({});
+  const total = await prisma.book.count({
+    where: whereConditions,
+  });
+
+  const totalPage = Math.ceil(total / limit);
 
   return {
     meta: {
       limit,
       page,
       total,
+      totalPage,
+    },
+    data: result,
+  };
+};
+
+const getBooksByCategoryId = async (
+  categoryId: string,
+  options: IPaginationOptions
+): Promise<IGenericResponse<Book[]>> => {
+  const { limit, page, skip } = paginationHelpers.calculatePagination(options);
+
+  const result = await prisma.book.findMany({
+    where: {
+      category: {
+        id: categoryId,
+      },
+    },
+    skip,
+    take: limit,
+    orderBy:
+      options.sortBy && options.sortOrder
+        ? { [options.sortBy]: options.sortOrder }
+        : {
+            price: 'desc',
+          },
+    include: {
+      category: true,
+    },
+  });
+
+  const total = await prisma.book.count({
+    where: { category: { id: categoryId } },
+  });
+
+  const subtotal = await prisma.book.count();
+
+  const totalPage = Math.ceil(subtotal / limit);
+
+  return {
+    meta: {
+      limit,
+      page,
+      total,
+      totalPage,
     },
     data: result,
   };
@@ -109,17 +175,5 @@ export const BookService = {
   updateBookData,
   deleteBookData,
   getSingleBookData,
+  getBooksByCategoryId,
 };
-
-// if (minPrice !== 0 && maxPrice !== 0) {
-//   andConditions.push({
-//     AND: [
-//       {
-//         price: {
-//           $gte: minPrice,
-//           $lte: maxPrice,
-//         },
-//       },
-//     ],
-//   });
-// }

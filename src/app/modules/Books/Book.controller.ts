@@ -17,6 +17,7 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBookFromDB = catchAsync(async (req: Request, res: Response) => {
+  // console.log("priceFilter:", req.query);
   const filters = pick(req.query, ['searchTerm','minPrice','maxPrice','categoryId']);
   const options = pick(req.query, ['limit','page', 'sortBy', 'sortOrder']);
   const result = await BookService.getAllBookFromDB(filters,options);
