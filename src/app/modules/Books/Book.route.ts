@@ -1,7 +1,5 @@
 import express from 'express';
 import { BookController } from './Book.controller';
-import auth from '../../middlewares/auth';
-import { ENUM_USER_ROLE } from '../../../enums/user';
 
 const router = express.Router();
 
@@ -11,7 +9,7 @@ router.post(
   BookController.insertIntoDB
 );
 
-// router.get('/', BookController.getAllBookFromDB)
+router.get('/', BookController.getAllBookFromDB)
 
 router.get(
   '/:id',

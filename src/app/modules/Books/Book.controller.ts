@@ -3,6 +3,7 @@ import catchAsync from '../../../shared/catchAsync';
 import { BookService } from './Book.service';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
+import pick from '../../../shared/pick';
 
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
@@ -15,19 +16,19 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const getAllBookFromDB = catchAsync(async (req: Request, res: Response) => {
-//   const filters = pick(req.query, BookFilterableFields);
-//   const paginationOptions = pick(req.query, paginationFields);
-//   const result = await BookService.getAllBookFromDB(filters, paginationOptions);
+const getAllBookFromDB = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, ['searchTerm','minPrice','maxPrice','categoryId']);
+  const options = pick(req.query, ['limit','page', 'sortBy', 'sortOrder']);
+  const result = await BookService.getAllBookFromDB(filters,options);
 
-//   sendResponse(res, {
-//       statusCode: httpStatus.OK,
-//       success: true,
-//       message: 'Students fetched successfully',
-//       meta: result.meta,
-//       data: result.data
-//   });
-// });
+  sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Students fetched successfully',
+      meta: result.meta,
+      data: result.data
+  });
+});
 
 const getSingleBookData = catchAsync(async (req: Request, res: Response) => {
   const result = await BookService.getSingleBookData(req.params.id);
@@ -61,6 +62,7 @@ const deleteBookData = catchAsync(async (req: Request, res: Response) => {
 
 export const BookController = {
   insertIntoDB,
+  getAllBookFromDB,
   getSingleBookData,
   updateBookData,
   deleteBookData,
