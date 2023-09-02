@@ -9,12 +9,9 @@ router.post(
   BookController.insertIntoDB
 );
 
-router.get('/', BookController.getAllBookFromDB)
+router.get('/', BookController.getAllBookFromDB);
 
-router.get(
-  '/:id',
-  BookController.updateBookData
-);
+router.get('/:id', BookController.updateBookData);
 
 router.patch(
   '/:id',
@@ -29,5 +26,6 @@ router.delete(
 );
 
 // book Category
+router.get('/:categoryId/category', BookController.getBooksByCategoryId);
 
 export const BookRoutes = router;

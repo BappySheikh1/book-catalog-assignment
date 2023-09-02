@@ -4,6 +4,7 @@ import { BookService } from './Book.service';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
 import pick from '../../../shared/pick';
+import { paginationFields } from '../../../constants/pagination';
 
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
@@ -25,11 +26,26 @@ const getAllBookFromDB = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Students fetched successfully',
+      message: 'Books fetched successfully',
       meta: result.meta,
       data: result.data
   });
 });
+
+
+const getBooksByCategoryId=catchAsync(async (req: Request, res: Response) => {
+  const categoryId = req.params.categoryId;
+  const options = pick(req.query, paginationFields);
+  const result = await BookService.getBooksByCategoryId(categoryId, options);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Books fetched successfully',
+    meta: result.meta,
+    data: result.data
+});
+})
 
 const getSingleBookData = catchAsync(async (req: Request, res: Response) => {
   const result = await BookService.getSingleBookData(req.params.id);
@@ -67,4 +83,5 @@ export const BookController = {
   getSingleBookData,
   updateBookData,
   deleteBookData,
+  getBooksByCategoryId
 };

@@ -20,7 +20,7 @@ const getAllBookFromDB = async (
   options: IPaginationOptions
 ): Promise<IGenericResponse<Book[] | null>> => {
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
-  const { searchTerm, maxPrice, minPrice, ...filtersData } = filters;
+  const { searchTerm, maxPrice, minPrice, category } = filters;
 
   const andConditions = [];
 
@@ -39,7 +39,7 @@ const getAllBookFromDB = async (
   if (minPrice !== undefined) {
     andConditions.push({
       price: {
-        gte: minPrice,
+        gte: parseFloat(minPrice),
       },
     });
   }
@@ -47,20 +47,28 @@ const getAllBookFromDB = async (
   if (maxPrice !== undefined) {
     andConditions.push({
       price: {
-        lte: maxPrice,
+        lte: parseFloat(maxPrice),
       },
     });
   }
 
-  if (Object.keys(filtersData).length > 0) {
+  if (category !== undefined) {
     andConditions.push({
-      AND: Object.keys(filtersData).map(key => ({
-        [key]: {
-          equals: (filtersData as any)[key],
-        },
-      })),
+      categoryId: {
+        equals: category,
+      },
     });
   }
+
+  // if (Object.keys(filtersData).length > 0) {
+  //   andConditions.push({
+  //     AND: Object.keys(filtersData).map(key => ({
+  //       [key]: {
+  //         equals: (filtersData as any)[key],
+  //       },
+  //     })),
+  //   });
+  // }
 
   const whereConditions: Prisma.BookWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
