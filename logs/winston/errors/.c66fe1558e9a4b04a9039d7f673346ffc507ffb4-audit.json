@@ -79,6 +79,11 @@
             "date": 1693731878609,
             "name": "C:\\Users\\City\\OneDrive\\Desktop\\assignment\\Book-catallog-backend-assignment\\logs\\winston\\errors\\phu-2023-03-09-15-error.log",
             "hash": "31ca1a913c188c7a90a650ffedf2c63ed7b0295294e180bfda4f5c13dd69e72d"
+        },
+        {
+            "date": 1693735790525,
+            "name": "C:\\Users\\City\\OneDrive\\Desktop\\assignment\\Book-catallog-backend-assignment\\logs\\winston\\errors\\phu-2023-03-09-16-error.log",
+            "hash": "dfc559225db798ef8c0ffc93bfb86f85c29612d9123f6f04121ff8f154841601"
         }
     ],
     "hashType": "sha256"

@@ -101,38 +101,39 @@ const getAllBookFromDB = async (
   };
 };
 
-const getBooksByCategoryId = async (
-  categoryId: string,
-  options: IPaginationOptions
-): Promise<IGenericResponse<Book[]>> => {
-  const { limit, page, skip } = paginationHelpers.calculatePagination(options);
+const getBooksByCategoryId = async (categoryId: string,
+  options: IPaginationOptions): Promise<IGenericResponse<Book[]>> => {
+
+
+  const { page, limit, skip } = paginationHelpers.calculatePagination(options);
+
 
   const result = await prisma.book.findMany({
-    where: {
-      category: {
-        id: categoryId,
-      },
-    },
-    skip,
-    take: limit,
-    orderBy:
-      options.sortBy && options.sortOrder
-        ? { [options.sortBy]: options.sortOrder }
-        : {
-            price: 'desc',
-          },
-    include: {
-      category: true,
-    },
-  });
+       where: {
+            category: {
+
+                 id: categoryId
+            }
+       },
+       skip,
+       take: limit,
+       orderBy: options.sortBy && options.sortOrder ? { [options.sortBy]: options.sortOrder } : {
+            price: 'desc'
+       },
+       include: {
+            category: true
+       }
+  })
 
   const total = await prisma.book.count({
-    where: { category: { id: categoryId } },
-  });
+       where: {
+            category: {
+                 id: categoryId
+            }
+       }
+  })
 
-  const subtotal = await prisma.book.count();
-
-  const totalPage = Math.ceil(subtotal / limit);
+  const totalPage = Math.ceil(total / limit);
 
   return {
     meta: {
