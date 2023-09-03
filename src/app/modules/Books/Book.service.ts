@@ -39,7 +39,7 @@ const getAllBookFromDB = async (
   if (minPrice !== undefined) {
     andConditions.push({
       price: {
-        gte: parseFloat(minPrice),
+        gte:minPrice,
       },
     });
   }
@@ -47,7 +47,7 @@ const getAllBookFromDB = async (
   if (maxPrice !== undefined) {
     andConditions.push({
       price: {
-        lte: parseFloat(maxPrice),
+        lte: maxPrice,
       },
     });
   }
