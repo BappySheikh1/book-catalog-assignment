@@ -67,15 +67,14 @@ model ReviewAndRating {
 model Order {
   id           String   @id @default(uuid())
   status       Status   @default(pending)
-  createAt     DateTime @default(now())
+  createdAt    DateTime @default(now())
   orderedBooks Json
 
-  userId String
   user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   @@map("orders")
 }
-
 enum UserEmail {
   admin
   customer
