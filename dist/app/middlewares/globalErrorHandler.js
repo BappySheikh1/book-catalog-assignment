@@ -6,15 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = __importDefault(require("../../config"));
 const ApiError_1 = __importDefault(require("../../errors/ApiError"));
 const handleValidationError_1 = __importDefault(require("../../errors/handleValidationError"));
+const client_1 = require("@prisma/client");
 const zod_1 = require("zod");
 const handleCilentError_1 = __importDefault(require("../../errors/handleCilentError"));
 const handleZodError_1 = __importDefault(require("../../errors/handleZodError"));
-const logger_1 = require("../../shared/logger");
-const client_1 = require("@prisma/client");
 const globalErrorHandler = (error, req, res, next) => {
     config_1.default.env === 'development'
         ? console.log(`🐱‍🏍 globalErrorHandler ~~`, { error })
-        : logger_1.errorlogger.error(`🐱‍🏍 globalErrorHandler ~~`, error);
+        : console.log(`🐱‍🏍 globalErrorHandler ~~`, error);
     let statusCode = 500;
     let message = 'Something went wrong !';
     let errorMessages = [];
