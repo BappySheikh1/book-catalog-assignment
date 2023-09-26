@@ -37,14 +37,24 @@ const insertIntoDB = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: result,
     });
 }));
+// const loginUser = catchAsync(async (req: Request, res: Response) => {
+//   const { ...loginData } = req.body;
+//   const result = await AuthService.loginUser(loginData);
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: 'User logged in successfully!',
+//     token: result,
+//   });
+// });
 const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const loginData = __rest(req.body, []);
     const result = yield auth_service_1.AuthService.loginUser(loginData);
-    (0, sendResponse_1.default)(res, {
+    res.send({
         statusCode: http_status_1.default.OK,
-        success: true,
+        status: true,
         message: 'User logged in successfully!',
-        data: result,
+        token: result,
     });
 }));
 exports.authController = {
